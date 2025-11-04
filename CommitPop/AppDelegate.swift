@@ -2,29 +2,29 @@
 //  AppDelegate.swift
 //  CommitPop
 //
-//  Created by 沈柯宇 on 2025/11/4.
+//  应用委托，处理通知委托和应用生命周期
 //
 
 import Cocoa
+import UserNotifications
 
-@main
 class AppDelegate: NSObject, NSApplicationDelegate {
-
     
-
-
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        print("✅ CommitPop 已启动")
+        
+        // 请求通知权限
+        Task {
+            await NotificationCenterManager.shared.requestAuthorization()
+        }
     }
-
+    
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+        print("👋 CommitPop 即将退出")
     }
-
+    
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
     }
-
-
 }
 
