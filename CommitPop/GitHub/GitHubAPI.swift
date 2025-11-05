@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 /// GitHub API 错误
 enum GitHubAPIError: Error, LocalizedError {

@@ -9,11 +9,22 @@ import Foundation
 import Combine
 
 /// 调度器状态
-enum SchedulerStatus {
+enum SchedulerStatus: Equatable {
     case idle
     case syncing
     case paused
     case error(Error)
+    
+    static func == (lhs: SchedulerStatus, rhs: SchedulerStatus) -> Bool {
+        switch (lhs, rhs) {
+        case (.idle, .idle), (.syncing, .syncing), (.paused, .paused):
+            return true
+        case (.error, .error):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 /// 轮询调度器

@@ -7,6 +7,7 @@
 
 import Foundation
 import UserNotifications
+import AppKit
 
 /// 通知管理器
 final class NotificationCenterManager: NSObject {

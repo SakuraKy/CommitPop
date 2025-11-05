@@ -129,14 +129,14 @@ CommitPop uses OAuth 2.0 Device Flow for authorization, which requires creating 
 
 ### Tech Stack
 
-| Category       | Technology                   |
-| -------------- | ---------------------------- |
-| Language       | Swift 5.9+                   |
-| UI Framework   | SwiftUI + AppKit             |
-| Notifications  | UserNotifications            |
-| Networking     | URLSession                   |
-| Storage        | Keychain + UserDefaults      |
-| Authorization  | GitHub OAuth 2.0 Device Flow |
+| Category      | Technology                   |
+| ------------- | ---------------------------- |
+| Language      | Swift 5.9+                   |
+| UI Framework  | SwiftUI + AppKit             |
+| Notifications | UserNotifications            |
+| Networking    | URLSession                   |
+| Storage       | Keychain + UserDefaults      |
+| Authorization | GitHub OAuth 2.0 Device Flow |
 
 ### Project Structure
 

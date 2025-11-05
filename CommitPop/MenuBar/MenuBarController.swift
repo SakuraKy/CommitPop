@@ -101,9 +101,9 @@ final class MenuBarController: ObservableObject {
         
         // 登录状态
         let isLoggedIn = keychainStore.hasAccessToken()
-        let statusItem = NSMenuItem(title: isLoggedIn ? "已登录" : "未登录", action: nil, keyEquivalent: "")
-        statusItem.isEnabled = false
-        menu.addItem(statusItem)
+        let loginStatusItem = NSMenuItem(title: isLoggedIn ? "已登录" : "未登录", action: nil, keyEquivalent: "")
+        loginStatusItem.isEnabled = false
+        menu.addItem(loginStatusItem)
         
         // 上次同步时间
         if let lastSync = cacheStore.getLastSyncDate() {
