@@ -13,6 +13,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         print("✅ CommitPop 已启动")
         
+        // 设置为后台应用,防止在没有窗口时退出
+        NSApp.setActivationPolicy(.accessory)
+        
         // 请求通知权限
         Task {
             await NotificationCenterManager.shared.requestAuthorization()
@@ -25,6 +28,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
+    }
+    
+    // 防止最后一个窗口关闭时退出应用
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return false
     }
 }
 
