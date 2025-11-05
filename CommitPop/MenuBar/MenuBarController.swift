@@ -7,10 +7,11 @@
 
 import AppKit
 import Combine
+import SwiftUI
 
 /// 菜单栏控制器
 @MainActor
-final class MenuBarController: ObservableObject {
+final class MenuBarController: NSObject, ObservableObject {
     
     // MARK: - Properties
     
@@ -22,9 +23,13 @@ final class MenuBarController: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
+    // 设置窗口 - 使用 weak 引用避免内存泄漏
+    private weak var preferencesWindow: NSWindow?
+    
     // MARK: - Initialization
     
-    init() {
+    override init() {
+        super.init()
         setupStatusItem()
         setupObservers()
         startScheduler()
@@ -233,8 +238,41 @@ final class MenuBarController: ObservableObject {
     }
     
     @objc private func openPreferences() {
-        // 打开设置窗口
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        // 如果窗口已存在且可见,直接显示
+        if let window = preferencesWindow, window.isVisible {
+            window.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            return
+        }
+        
+        // 创建 SwiftUI 视图
+        let contentView = PreferencesTabView()
+            .frame(minWidth: 620, minHeight: 480)
+        
+        // 创建窗口
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 620, height: 480),
+            styleMask: [.titled, .closable, .miniaturizable],
+            backing: .buffered,
+            defer: false
+        )
+        
+        window.title = "CommitPop 首选项"
+        window.contentView = NSHostingView(rootView: contentView)
+        window.center()
+        window.setFrameAutosaveName("PreferencesWindow")
+        
+        // 确保窗口在关闭后被释放
+        window.isReleasedWhenClosed = true
+        
+        // 保存弱引用
+        self.preferencesWindow = window
+        
+        // 显示窗口并激活应用
+        window.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+        
+        print("✅ 首选项窗口已打开")
     }
     
     @objc private func quit() {

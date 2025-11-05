@@ -13,8 +13,14 @@ struct CommitPopApp: App {
     // AppDelegate for notification handling
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    // Menu bar controller (持久化，不会被释放)
-    @StateObject private var menuBarController = MenuBarController()
+    // Menu bar controller - 使用静态变量确保在整个应用生命周期内存在
+    static let menuBarController = MenuBarController()
+    
+    init() {
+        // 在应用启动时初始化菜单栏控制器
+        // 注意:这里不需要赋值,因为是静态变量
+        _ = CommitPopApp.menuBarController
+    }
     
     var body: some Scene {
         // Settings 场景，用于 Cmd+, 快捷键
