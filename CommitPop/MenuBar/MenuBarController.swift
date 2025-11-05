@@ -25,6 +25,7 @@ final class MenuBarController: NSObject, ObservableObject {
     
     // 设置窗口 - 使用 weak 引用避免内存泄漏
     private weak var preferencesWindow: NSWindow?
+    private var preferencesWindowDelegate: PreferencesWindowDelegate?
     
     // MARK: - Initialization
     
@@ -262,8 +263,13 @@ final class MenuBarController: NSObject, ObservableObject {
         window.center()
         window.setFrameAutosaveName("PreferencesWindow")
         
-        // 确保窗口在关闭后被释放
-        window.isReleasedWhenClosed = true
+        // 关键修复: 不要自动释放窗口,防止应用退出
+        window.isReleasedWhenClosed = false
+        
+        // 创建并设置窗口委托
+        let delegate = PreferencesWindowDelegate()
+        window.delegate = delegate
+        self.preferencesWindowDelegate = delegate
         
         // 保存弱引用
         self.preferencesWindow = window
@@ -286,5 +292,17 @@ final class MenuBarController: NSObject, ObservableObject {
         return apiUrl
             .replacingOccurrences(of: "https://api.github.com/repos/", with: "https://github.com/")
             .replacingOccurrences(of: "/pulls/", with: "/pull/")
+    }
+}
+
+// MARK: - Window Delegate
+
+/// 首选项窗口委托,处理窗口关闭事件
+class PreferencesWindowDelegate: NSObject, NSWindowDelegate {
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        // 隐藏窗口而不是关闭,保持窗口对象存在
+        sender.orderOut(nil)
+        print("✅ 首选项窗口已隐藏")
+        return false
     }
 }
