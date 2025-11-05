@@ -4,195 +4,194 @@
 
 # CommitPop
 
-这是一个利用 macOS 系统通知实时监控 GitHub 动态的软件
+A macOS menu bar app that monitors GitHub notifications in real-time using system notifications
 
-可以让你在工作、上课等恶劣环境下安全隐秘地接收 GitHub 通知
+Stay stealthily updated on GitHub activities during work, class, or other critical moments
 
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
-[![release](https://img.shields.io/badge/release-v1.0-brightgreen)](https://github.com/yourusername/CommitPop/releases)
+[![release](https://img.shields.io/badge/release-v1.0-brightgreen)](https://github.com/SakuraKy/CommitPop/releases)
 [![platform](https://img.shields.io/badge/platform-macOS%2013%2B-lightgrey)](https://www.apple.com/macos)
+[![Email](https://img.shields.io/badge/Email-sakuraky.shen%40gmail.com-red?style=flat-square&logo=gmail&logoColor=white)](mailto:sakuraky.shen@gmail.com)
 
 ---
 
-### 📧 联系方式
-
-[![Email](https://img.shields.io/badge/Email-sakuraky.shen%40gmail.com-red?style=flat-square&logo=gmail&logoColor=white)](mailto:sakuraky.shen@gmail.com)
+[English](README.md) | [简体中文](README_CN.md)
 
 </div>
 
 ---
 
-## ✨ 功能特性
+## ✨ Features
 
-- ✅ **纯本地运行** - 无需自建服务器，所有数据处理均在本地完成
-- 🔐 **安全可靠** - 使用 Keychain 加密存储访问令牌，保护你的隐私
-- 🎯 **精准通知** - 智能去重，只推送真正需要关注的更新
-- ⚡ **性能优化** - 使用 Last-Modified 头减少 API 请求，遵守速率限制
-- 🎨 **原生体验** - 纯 Swift 开发，使用 AppKit + SwiftUI，完美融入 macOS
-- � **暗色模式** - 自动适配系统主题
-- 🔕 **灵活配置** - 可调节轮询间隔（1-30 分钟），暂停/恢复通知
-- 🚀 **开机自启** - 支持 macOS 13+ 登录项（可选）
-- 📊 **状态监控** - 菜单栏显示登录状态、同步时间、API 配额
-- 🔗 **快速访问** - 点击通知直达对应的 GitHub 页面
+- ✅ **Fully Local** - No server required, all data processing happens locally
+- 🔐 **Secure & Reliable** - Access tokens encrypted and stored in Keychain
+- 🎯 **Smart Notifications** - Intelligent deduplication, only notifies what matters
+- ⚡ **Performance Optimized** - Uses Last-Modified headers to reduce API calls, respects rate limits
+- 🎨 **Native Experience** - Pure Swift with AppKit + SwiftUI, seamlessly integrated with macOS
+- 🌙 **Dark Mode** - Automatically adapts to system theme
+- 🔕 **Flexible Configuration** - Adjustable polling intervals (1-30 minutes), pause/resume notifications
+- 🚀 **Launch at Login** - Supports macOS 13+ login items (optional)
+- 📊 **Status Monitoring** - Menu bar displays login status, sync time, API quota
+- 🔗 **Quick Access** - Click notifications to jump directly to GitHub pages
 
 ---
 
-## 📦 快速开始
+## 📦 Quick Start
 
-### 系统要求
+### System Requirements
 
-- macOS 13.0 或更高版本
-- Xcode 15.0+ (用于编译)
-- 有效的网络连接
+- macOS 13.0 or later
+- Xcode 15.0+ (for building from source)
+- Active internet connection
 
-### 下载安装
+### Download & Install
 
-#### 方式一：下载预编译版本（推荐）
+#### Option 1: Download Pre-built Binary (Recommended)
 
-前往 [Releases](https://github.com/yourusername/CommitPop/releases) 页面下载最新版本。
+Visit the [Releases](https://github.com/SakuraKy/CommitPop/releases) page to download the latest version.
 
-#### 方式二：从源代码编译
+#### Option 2: Build from Source
 
 ```bash
-# 克隆仓库
-git clone https://github.com/yourusername/CommitPop.git
+# Clone the repository
+git clone https://github.com/SakuraKy/CommitPop.git
 cd CommitPop
 
-# 使用 Xcode 打开项目
+# Open with Xcode
 open CommitPop.xcodeproj
 
-# 在 Xcode 中按 Cmd + R 编译运行
+# Press Cmd + R in Xcode to build and run
 ```
 
-### 初次使用
+### First-Time Setup
 
-1. **启动应用** - 首次启动时，系统会请求通知权限，请点击"允许"
-2. **创建 OAuth App** - 访问 [GitHub Developer Settings](https://github.com/settings/developers) 创建 OAuth App
-3. **配置 Client ID** - 在应用首选项中粘贴 Client ID
-4. **设备码登录** - 按照提示在浏览器中完成授权
-5. **开始使用** - 应用将自动开始监控并推送通知
+1. **Launch the App** - On first launch, grant notification permissions when prompted
+2. **Create OAuth App** - Visit [GitHub Developer Settings](https://github.com/settings/developers) to create an OAuth App
+3. **Configure Client ID** - Paste your Client ID in the app preferences
+4. **Device Flow Login** - Follow the instructions to authorize in your browser
+5. **Start Using** - The app will automatically start monitoring and sending notifications
 
-详细配置步骤请参考 [使用指南](#使用指南)。
+For detailed configuration steps, see [User Guide](#user-guide).
 
 ---
 
-## 📖 使用指南
+## 📖 User Guide
 
 <details>
-<summary><b>创建 GitHub OAuth App</b></summary>
+<summary><b>Create GitHub OAuth App</b></summary>
 
-CommitPop 使用 OAuth 2.0 Device Flow 进行授权，需要先创建一个 OAuth App。
+CommitPop uses OAuth 2.0 Device Flow for authorization, which requires creating an OAuth App first.
 
-1. 登录 GitHub，访问 [Developer Settings](https://github.com/settings/developers)
-2. 点击 **OAuth Apps** → **New OAuth App**
-3. 填写应用信息：
+1. Log in to GitHub and visit [Developer Settings](https://github.com/settings/developers)
+2. Click **OAuth Apps** → **New OAuth App**
+3. Fill in the application details:
    - Application name: `CommitPop`
-   - Homepage URL: `https://github.com/yourusername/CommitPop`
+   - Homepage URL: `https://github.com/SakuraKy/CommitPop`
    - Authorization callback URL: `http://localhost`
-4. 创建后，复制 **Client ID**
+4. After creation, copy the **Client ID**
 
 </details>
 
 <details>
-<summary><b>首次启动配置</b></summary>
+<summary><b>Initial Configuration</b></summary>
 
-1. 启动 CommitPop，允许通知权限
-2. 打开首选项（点击菜单栏图标 → 打开首选项，或按 `Cmd + ,`）
-3. 在"登录"标签页粘贴 Client ID
-4. 点击"开始设备码登录"
-5. 复制显示的 User Code，在浏览器中完成授权
-6. 应用会自动完成登录并开始同步
+1. Launch CommitPop and grant notification permissions
+2. Open Preferences (click menu bar icon → Open Preferences, or press `Cmd + ,`)
+3. Paste your Client ID in the "Login" tab
+4. Click "Start Device Flow Login"
+5. Copy the displayed User Code and authorize in your browser
+6. The app will automatically complete login and start syncing
 
 </details>
 
 <details>
-<summary><b>日常使用</b></summary>
+<summary><b>Daily Usage</b></summary>
 
-**菜单栏操作：**
+**Menu Bar Actions:**
 
-- 立即同步 - 手动触发一次同步
-- 暂停/恢复通知 - 临时关闭通知
-- 最近事件 - 快速访问最近的通知
-- 退出 - 退出应用
+- Sync Now - Manually trigger a sync
+- Pause/Resume Notifications - Temporarily disable notifications
+- Recent Events - Quick access to recent notifications
+- Quit - Exit the application
 
-**首选项配置：**
+**Preferences:**
 
-- 登录：查看账户、注销
-- 通知：调整间隔、配置范围、测试通知
-- 启动项：开机自启设置
-- 高级：缓存管理、调试信息
+- Login: View account, sign out
+- Notifications: Adjust intervals, configure scope, test notifications
+- Startup: Launch at login settings
+- Advanced: Cache management, debug info
 
 </details>
 
 ---
 
-## 🔧 技术架构
+## 🔧 Technical Architecture
 
-### 技术栈
+### Tech Stack
 
-| 分类    | 技术                         |
-| ------- | ---------------------------- |
-| 语言    | Swift 5.9+                   |
-| UI 框架 | SwiftUI + AppKit             |
-| 通知    | UserNotifications            |
-| 网络    | URLSession                   |
-| 存储    | Keychain + UserDefaults      |
-| 授权    | GitHub OAuth 2.0 Device Flow |
+| Category       | Technology                   |
+| -------------- | ---------------------------- |
+| Language       | Swift 5.9+                   |
+| UI Framework   | SwiftUI + AppKit             |
+| Notifications  | UserNotifications            |
+| Networking     | URLSession                   |
+| Storage        | Keychain + UserDefaults      |
+| Authorization  | GitHub OAuth 2.0 Device Flow |
 
-### 项目结构
+### Project Structure
 
 <details>
-<summary>查看完整目录结构</summary>
+<summary>View Complete Directory Structure</summary>
 
 ```
 CommitPop/
-├── Auth/                        # 授权模块（OAuth + Keychain）
-├── GitHub/                      # GitHub API 模块
-├── Notifications/               # 系统通知模块
-├── Scheduler/                   # 定时调度器
-├── Persistence/                 # 数据持久化
-├── MenuBar/                     # 菜单栏控制
-├── PreferencesUI/               # 设置界面（SwiftUI）
-└── Utils/                       # 工具类
+├── Auth/                        # Authorization module (OAuth + Keychain)
+├── GitHub/                      # GitHub API module
+├── Notifications/               # System notification module
+├── Scheduler/                   # Polling scheduler
+├── Persistence/                 # Data persistence
+├── MenuBar/                     # Menu bar controller
+├── PreferencesUI/               # Settings UI (SwiftUI)
+└── Utils/                       # Utilities
 ```
 
 </details>
 
-### 关键特性实现
+### Key Implementation Details
 
-- **OAuth Device Flow** - 无需浏览器回调，纯设备码授权
-- **Last-Modified 优化** - 使用 HTTP 条件请求减少传输
-- **智能去重** - 基于 thread.id + updatedAt 判断
-- **速率限制处理** - 解析响应头，遵守 5,000 req/hour 限制
-- **安全存储** - Token 存储于 Keychain，加密保护
+- **OAuth Device Flow** - No browser callback needed, pure device code authorization
+- **Last-Modified Optimization** - Uses HTTP conditional requests to reduce bandwidth
+- **Smart Deduplication** - Based on thread.id + updatedAt timestamps
+- **Rate Limit Handling** - Parses response headers, respects 5,000 req/hour limit
+- **Secure Storage** - Tokens stored in Keychain with encryption
 
 ---
 
-## 🛠️ 开发指南
+## 🛠️ Development Guide
 
-### 环境配置
+### Environment Setup
 
-详细的 Xcode 配置指南请参考 [XCODE_SETUP.md](XCODE_SETUP.md)。
+For detailed Xcode configuration instructions, see [XCODE_SETUP.md](XCODE_SETUP.md).
 
-### 调试技巧
+### Debugging Tips
 
-- **查看日志** - Xcode Console（带 emoji 前缀便于识别）
-- **测试通知** - 首选项 → 通知 → 发送测试通知
-- **打印调试信息** - 首选项 → 高级 → 打印调试信息
+- **View Logs** - Xcode Console (with emoji prefixes for easy identification)
+- **Test Notifications** - Preferences → Notifications → Send Test Notification
+- **Print Debug Info** - Preferences → Advanced → Print Debug Info
 
-### 常见问题
+### Common Issues
 
 <details>
-<summary>为什么应用不出现在 Dock？</summary>
+<summary>Why doesn't the app appear in the Dock?</summary>
 
-CommitPop 配置为纯菜单栏应用（`LSUIElement = YES`），不会在 Dock 显示。
+CommitPop is configured as a menu bar-only app (`LSUIElement = YES`), so it won't show in the Dock.
 
 </details>
 
 <details>
-<summary>如何配置 Info.plist？</summary>
+<summary>How to configure Info.plist?</summary>
 
-在 Xcode 项目设置 → Info 中添加：
+In Xcode Project Settings → Info, add:
 
 - `Application is agent (UIElement)` = YES
 - `NSUserNotificationsUsageDescription`
@@ -200,61 +199,61 @@ CommitPop 配置为纯菜单栏应用（`LSUIElement = YES`），不会在 Dock 
 </details>
 
 <details>
-<summary>需要哪些权限？</summary>
+<summary>What permissions are required?</summary>
 
-- 通知权限（UserNotifications）
-- 网络权限（App Sandbox - Outgoing Connections）
+- Notification permissions (UserNotifications)
+- Network permissions (App Sandbox - Outgoing Connections)
 
 </details>
 
 ---
 
-## 🤝 贡献
+## 🤝 Contributing
 
-欢迎各种形式的贡献！
+Contributions of all kinds are welcome!
 
-- 🐛 [报告 Bug](https://github.com/yourusername/CommitPop/issues/new?labels=bug)
-- 💡 [功能建议](https://github.com/yourusername/CommitPop/issues/new?labels=enhancement)
-- 📝 提交 Pull Request
-- ⭐ Star 本项目
+- 🐛 [Report Bugs](https://github.com/SakuraKy/CommitPop/issues/new?labels=bug)
+- 💡 [Feature Requests](https://github.com/SakuraKy/CommitPop/issues/new?labels=enhancement)
+- 📝 Submit Pull Requests
+- ⭐ Star this project
 
-### 贡献步骤
+### Contribution Steps
 
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
-
----
-
-## 📋 路线图
-
-- [ ] 支持筛选特定仓库
-- [ ] 支持多账户切换
-- [ ] 添加统计仪表盘
-- [ ] GraphQL API 支持
-- [ ] 国际化（多语言支持）
-- [ ] 自定义通知规则
-- [ ] 导出通知历史
+1. Fork this repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 📄 许可证
+## 📋 Roadmap
 
-本项目采用 [Apache License 2.0](LICENSE) 许可证。
+- [ ] Support filtering specific repositories
+- [ ] Support multiple account switching
+- [ ] Add statistics dashboard
+- [ ] GraphQL API support
+- [ ] Internationalization (multi-language support)
+- [ ] Custom notification rules
+- [ ] Export notification history
+
+---
+
+## 📄 License
+
+This project is licensed under the [Apache License 2.0](LICENSE).
 
 ---
 
 ## ⭐ Star History
 
-如果觉得这个项目对你有帮助，欢迎 Star ⭐
+If you find this project helpful, feel free to give it a Star ⭐
 
 ---
 
 <div align="center">
 
-**[⬆ 回到顶部](#commitpop)**
+**[⬆ Back to Top](#commitpop)**
 
 Made with ❤️ for the GitHub community
 
