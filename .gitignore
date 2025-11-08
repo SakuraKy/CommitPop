@@ -120,3 +120,8 @@ Temporary Items
 # Uncomment if you don't want to track user data
 # But be careful not to commit sensitive info!
 # CommitPopCache/
+
+# Release artifacts (use GitHub Releases for distribution)
+release/*.dmg
+release/*.app
+release/dmg-temp/
