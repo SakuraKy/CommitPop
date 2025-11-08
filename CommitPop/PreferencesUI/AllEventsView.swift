@@ -55,7 +55,7 @@ struct AllEventsView: View {
                         .buttonStyle(.bordered)
                     Spacer()
                 }
-            } else if scheduler.allThreads.isEmpty {
+            } else if scheduler.recentThreads.isEmpty {
                 VStack {
                     Spacer()
                     Image(systemName: "tray")
@@ -69,7 +69,7 @@ struct AllEventsView: View {
             } else {
                 ScrollView {
                     LazyVStack(spacing: 0) {
-                        ForEach(scheduler.allThreads, id: \.id) { thread in
+                        ForEach(scheduler.recentThreads, id: \.id) { thread in
                             EventRowView(thread: thread)
                             Divider()
                         }
@@ -79,7 +79,7 @@ struct AllEventsView: View {
         }
         .frame(minWidth: 600, minHeight: 400)
         .onAppear {
-            if scheduler.allThreads.isEmpty {
+            if scheduler.recentThreads.isEmpty {
                 refreshEvents()
             }
         }

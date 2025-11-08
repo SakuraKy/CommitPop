@@ -51,7 +51,12 @@ final class MenuBarController: NSObject, ObservableObject {
         button.image = MenuIconProvider.getMenuIcon()
         button.imagePosition = .imageLeft
         
-        // 设置菜单
+        // 创建菜单（初始）
+        let menu = NSMenu()
+        menu.delegate = self  // 设置代理以监听菜单打开事件
+        statusItem?.menu = menu
+        
+        // 初始更新菜单
         updateMenu()
         
         print("✅ 菜单栏项已创建")
@@ -201,6 +206,8 @@ final class MenuBarController: NSObject, ObservableObject {
         quitItem.target = self
         menu.addItem(quitItem)
         
+        // 设置菜单代理，以便在菜单打开时刷新内容
+        menu.delegate = self
         statusItem?.menu = menu
     }
     
@@ -208,14 +215,16 @@ final class MenuBarController: NSObject, ObservableObject {
     
     @objc private func syncNow() {
         Task {
-            await scheduler.syncNow()
+            // 用户手动点击"立即同步"，强制执行（忽略暂停状态）
+            await scheduler.syncNow(force: true)
         }
     }
     
     @objc private func togglePause() {
         settingsStore.notificationsPaused.toggle()
-        let status = settingsStore.notificationsPaused ? "已暂停" : "已恢复"
-        print("🔔 通知\(status)")
+        
+        // 立即更新菜单以反映变化
+        updateMenu()
     }
     
     @objc private func openThread(_ sender: NSMenuItem) {
@@ -292,6 +301,15 @@ final class MenuBarController: NSObject, ObservableObject {
         return apiUrl
             .replacingOccurrences(of: "https://api.github.com/repos/", with: "https://github.com/")
             .replacingOccurrences(of: "/pulls/", with: "/pull/")
+    }
+}
+
+// MARK: - Menu Delegate
+
+extension MenuBarController: NSMenuDelegate {
+    /// 菜单即将打开时调用 - 刷新菜单内容以显示最新的时间
+    func menuWillOpen(_ menu: NSMenu) {
+        updateMenu()
     }
 }
 

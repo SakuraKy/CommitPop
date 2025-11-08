@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AdvancedTabView: View {
     
-    @StateObject private var settingsStore = SettingsStore.shared
+    @ObservedObject private var settingsStore = SettingsStore.shared
     @State private var showingClearCacheAlert = false
     @State private var showingExportSheet = false
     @State private var exportedData: String = ""

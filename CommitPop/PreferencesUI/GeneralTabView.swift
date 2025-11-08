@@ -10,7 +10,7 @@ import SwiftUI
 struct GeneralTabView: View {
     
     @StateObject private var authService = DeviceFlowAuthService()
-    @StateObject private var settingsStore = SettingsStore.shared
+    @ObservedObject private var settingsStore = SettingsStore.shared
     @State private var accountInfo: AccountModel?
     @State private var isLoading = false
     @State private var errorMessage: String?

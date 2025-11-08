@@ -52,7 +52,7 @@ final class CacheStore {
     func saveLastModified(_ lastModified: String?) {
         var cache = loadLastModifiedCache()
         cache.notificationsLastModified = lastModified
-        cache.lastSyncDate = Date()
+        cache.lastSyncDate = Date() // 每次调用都更新同步时间
         
         let fileURL = cacheDirectory.appendingPathComponent(Constants.Cache.lastModifiedFile)
         
@@ -60,7 +60,7 @@ final class CacheStore {
             let data = try JSONEncoder().encode(cache)
             try data.write(to: fileURL)
         } catch {
-            print("❌ 保存 Last-Modified 失败: \(error)")
+            print("❌ 保存同步时间失败: \(error)")
         }
     }
     

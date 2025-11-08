@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NotificationsTabView: View {
     
-    @StateObject private var settingsStore = SettingsStore.shared
+    @ObservedObject private var settingsStore = SettingsStore.shared
     
     var body: some View {
         Form {
@@ -50,6 +50,8 @@ struct NotificationsTabView: View {
                 Toggle("启用通知声音", isOn: $settingsStore.notificationSoundEnabled)
                     .help("通知到达时播放系统声音")
                 
+                // Toggle 打开 = notificationsPaused = true（已暂停）
+                // Toggle 关闭 = notificationsPaused = false（未暂停）
                 Toggle("暂停通知", isOn: $settingsStore.notificationsPaused)
                     .help("暂时停止发送通知（后台仍会同步）")
             }

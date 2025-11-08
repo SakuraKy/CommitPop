@@ -10,7 +10,7 @@ import ServiceManagement
 
 struct StartupTabView: View {
     
-    @StateObject private var settingsStore = SettingsStore.shared
+    @ObservedObject private var settingsStore = SettingsStore.shared
     @State private var launchAtLoginStatus: String = "未知"
     
     var body: some View {

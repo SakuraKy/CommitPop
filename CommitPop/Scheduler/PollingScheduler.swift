@@ -91,14 +91,14 @@ final class PollingScheduler: ObservableObject {
     }
     
     /// 立即同步
-    func syncNow() async {
-        guard !settingsStore.notificationsPaused else {
-            print("⏸️ 通知已暂停，跳过同步")
+    /// - Parameter force: 是否强制同步（忽略暂停状态），默认 false
+    func syncNow(force: Bool = false) async {
+        // 只有非强制同步才检查暂停状态
+        if !force && settingsStore.notificationsPaused {
             return
         }
         
         guard status != .syncing else {
-            print("⚠️ 正在同步中，跳过本次请求")
             return
         }
         
@@ -120,9 +120,12 @@ final class PollingScheduler: ObservableObject {
                 ifModifiedSince: lastModified
             )
             
-            // 保存 Last-Modified
+            // 保存 Last-Modified（这会自动保存同步时间到 CacheStore）
             if let newLastModified = response.lastModified {
                 cacheStore.saveLastModified(newLastModified)
+            } else {
+                // 即使没有 Last-Modified，也要更新同步时间
+                cacheStore.saveLastModified(nil)
             }
             
             // 处理新通知
@@ -138,10 +141,10 @@ final class PollingScheduler: ObservableObject {
             print("✅ 同步完成，获取到 \(response.data.count) 条通知")
             
         } catch GitHubAPIError.notModified {
-            // 304: 未修改
+            // 304: 未修改，但也要更新同步时间
+            cacheStore.saveLastModified(cacheStore.getLastModified())
             lastSyncDate = Date()
             status = .idle
-            print("✅ 同步完成，内容未修改")
             
         } catch {
             status = .error(error)
@@ -194,9 +197,8 @@ final class PollingScheduler: ObservableObject {
         // 更新最近通知列表
         recentThreads = Array(threads.prefix(Constants.Defaults.recentEventsCount))
         
-        // 发送系统通知
-        if !newThreads.isEmpty {
-            print("📬 发现 \(newThreads.count) 条新通知")
+        // 发送系统通知（如果未暂停）
+        if !newThreads.isEmpty && !settingsStore.notificationsPaused {
             await notifier.notifyMultipleThreads(newThreads)
         }
     }
